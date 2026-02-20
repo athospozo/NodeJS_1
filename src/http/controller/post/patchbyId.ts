@@ -28,12 +28,12 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     if (conteudo !== undefined) objetoUtilizavel.conteudo = conteudo
 
-    const user = await prisma.post.update({
+    const post = await prisma.post.update({
         where:{
             id: id,
         },
         data: objetoUtilizavel,
     })
 
-    return reply.status(201).send(user)
+    return reply.status(201).send(post)
 }

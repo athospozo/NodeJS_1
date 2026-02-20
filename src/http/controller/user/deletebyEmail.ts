@@ -15,7 +15,6 @@ export async function deleteUserbyEmail (request: FastifyRequest, reply: Fastify
         }
     })
 
-
     return reply.status(201).send({
         message: "Usuário deletado com sucesso!",
         usuarioDeletado: user

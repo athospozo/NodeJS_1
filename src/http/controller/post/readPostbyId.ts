@@ -10,11 +10,11 @@ export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { id } = paramsSchema.parse(request.params)
 
-    const user = await prisma.post.findUnique({
+    const post = await prisma.post.findUnique({
         where:{
             id: id,
         },
     })
 
-    return reply.status(201).send(user)
+    return reply.status(201).send(post)
 }
