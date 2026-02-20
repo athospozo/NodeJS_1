@@ -1,6 +1,10 @@
 import type { FastifyInstance } from 'fastify';
 import { register } from './register.js';
+import { showAll } from './showall.js';
+import { deletePostbyId } from './deletebyId.js';
 
 export async function postRoutes (app: FastifyInstance) {
     app.post('/', register)
+    app.get('/', showAll)
+    app.delete('/', deletePostbyId)
 }
