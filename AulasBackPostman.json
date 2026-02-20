@@ -1,0 +1,173 @@
+{
+  "info": {
+    "_postman_id": "60dd494a-86fa-42ca-abf7-336500582427",
+    "name": "Aulas Back",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52079124",
+    "_collection_link": "https://go.postman.co/collection/52079124-60dd494a-86fa-42ca-abf7-336500582427?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "POST - Registro de Post",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"titulo\": \"memorias de subsolo\",\r\n    \"Conteudo\": \"dchqgebnmnvjewvfhbvjhwbfvhkebrjvbebvjhbvjhbjhwvbjhbvgrbv\",\r\n    \"Idautor\": 8\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3333/posts",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3333",
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Registro de Usuario",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"Johnsd Doghje\",\r\n    \"email\": \"john.doeghwerjk@edsdxample.com\",\r\n    \"password\": \"password123\",\r\n    \"picture\": \"athos.jpeg\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3333/usuario",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3333",
+          "path": [
+            "usuario"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Pegando Post pot Id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3333/posts/2",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3333",
+          "path": [
+            "posts",
+            "2"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Pegando Usuario por Id",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Pegando Posts atreladdos a Usuario",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "PATCH - Editando Post por Id",
+      "request": {
+        "method": "PATCH",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "PATCH - Editando Usuario por Id",
+      "request": {
+        "method": "PATCH",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "DEL - Deleção de Post por Id",
+      "request": {
+        "method": "DELETE",
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "DEL - Deleção de Usuario por email",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3333/usuario",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3333",
+          "path": [
+            "usuario"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Lista de Posts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3333/posts",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3333",
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Lista de Usuarios",
+      "request": {
+        "method": "GET",
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
