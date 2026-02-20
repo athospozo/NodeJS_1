@@ -1,7 +1,8 @@
-import { app } from "./app.js";
+import { app } from "./app.js"
+import { env } from "./env/index.js";
 
-const host = "0.0.0.0"; //garante que seja acessivel para frontends
-const port = 3333; //ou 3000
+const host = env.HOST; 
+const port = env.PORT; 
 
 app
   .listen({

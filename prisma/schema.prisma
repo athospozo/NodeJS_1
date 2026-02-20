@@ -18,7 +18,7 @@ enum USER_ROLE {
   DEFAULT
 }
 
-model User {
+model Usuario {
   id       Int @id @default(autoincrement())
 
   name     String
@@ -39,7 +39,7 @@ model Post {
   Conteudo String
   
   autorId      Int    @map("autor_id")
-  autor        User   @relation(fields: [autorId], references: [id])
+  autor        Usuario @relation(fields: [autorId], references: [id])
 
   createdAt DateTime @default(now()) @map("created_at")
 
