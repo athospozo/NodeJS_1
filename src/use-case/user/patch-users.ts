@@ -1,7 +1,7 @@
 import type { Usuario } from "@/@types/prisma/client.js";
-import { prisma } from "@/libs/prisma.js";
 import { hash } from 'bcryptjs'
 import { env } from '@/env/index.js'
+import type { UsersRepository } from "@/repositories/users-repository.js";
 
 interface PatchUserUseCaseRequest {
     name?: string | undefined;
@@ -15,6 +15,7 @@ type PatchUserUseCaseResponse = {
 }
 
 export class PatchUserUseCase {
+    constructor (private usersRepository: UsersRepository) {}
     async execute (id: number, { 
         name,
         email,
@@ -22,11 +23,7 @@ export class PatchUserUseCase {
         photo
         }: PatchUserUseCaseRequest ): Promise<PatchUserUseCaseResponse>{
 
-        let user = await prisma.usuario.findFirst({
-            where : {
-                id
-            }
-        })
+        let user = await this.usersRepository.findById(id)
 
         // caso usuario nao exista:
         if (!user) throw new Error('Usuário não existe')
@@ -51,12 +48,7 @@ export class PatchUserUseCase {
             dataToUpdate.photo = photo
         }
     
-        user = await prisma.usuario.update({
-            where:{
-                id: id,
-            },
-            data: dataToUpdate,
-        })
+        user = await this.usersRepository.update(id, dataToUpdate)
     
         return { user }
     }

@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { PatchUserUseCase } from '@/use-case/user/patch-users.js';
+import { PrismaUsersRepository } from '@/repositories/prisma/users-prisma-repository.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -21,7 +22,8 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { name, email, password, picture } = PatchBodySchema.parse(request.body);
 
-    const { user } = await new PatchUserUseCase().execute(id, {
+    const usersRepository = new PrismaUsersRepository()
+    const { user } = await new PatchUserUseCase(usersRepository).execute(id, {
         name,
         email,
         passwordHash: password,

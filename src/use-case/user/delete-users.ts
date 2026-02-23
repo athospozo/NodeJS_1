@@ -1,5 +1,5 @@
 import type { Usuario } from "@/@types/prisma/client.js"
-import { prisma } from "@/libs/prisma.js"
+import type { UsersRepository } from "@/repositories/users-repository.js"
 
 // usuario que sera devolvido mostrando que foi apagado
 type DeletedUserUseCaseResponse = {
@@ -7,25 +7,17 @@ type DeletedUserUseCaseResponse = {
 }
 
 export class DeleteUserUseCase {
+    constructor (private usersRepository: UsersRepository) {}
     async execute( email: string ): Promise<DeletedUserUseCaseResponse> {
         // checamos se o usuario existe:
-        const user = await prisma.usuario.findFirst({
-            where: {
-                email,
-            }
-        })
+        const userWithEmail = await this.usersRepository.findByEmail(email)
 
-        if (!user) {
+        if (!userWithEmail) {
             throw new Error('Usuário não existe')
         }
         
-        await prisma.usuario.delete({
-            where: {
-                email: user.email
-            }
-    
-        })
+        const user = await this.usersRepository.delete(email)
+        
         return { user }
     }
-
 }

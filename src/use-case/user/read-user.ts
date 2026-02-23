@@ -1,20 +1,17 @@
 import type { Usuario } from "@/@types/prisma/client.js"
-import { prisma } from "@/libs/prisma.js"
+import type { UsersRepository } from "@/repositories/users-repository.js"
   
 type GetUserUseCaseResponse = {
     user: Usuario
 }   
     
 export class ReadUserById{
+    constructor (private usersRepository: UsersRepository) {}
     async execute ( id: number ): Promise<GetUserUseCaseResponse>{
 
-        let user = await prisma.usuario.findUnique({
-            where:{
-                id: id,
-            },
-        })
+        const user = await this.usersRepository.findById(id)
 
-        if (!user) throw new Error ("Usuário nãao existe!")
+        if (!user) throw new Error ("Usuário não existe!")
 
         return { user }
     }
