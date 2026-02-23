@@ -5,7 +5,7 @@ type GetUserUseCaseResponse = {
     user: Usuario
 }   
     
-export class ReadUserById{
+export class ReadUserByIdUseCase{
     constructor (private usersRepository: UsersRepository) {}
     async execute ( id: number ): Promise<GetUserUseCaseResponse>{
 
