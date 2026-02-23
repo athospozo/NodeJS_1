@@ -1,7 +1,6 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { DeletePostUseCase } from '@/use-case/post/delete-post.js';
-import { PrismaPostsRepository } from '@/repositories/prisma/posts-prisma-repository.js';
+import { makeDeletePostUseCase } from '@/use-case/factories/post/delete-post-use-case.js';
 
 export async function deletePostbyId (request: FastifyRequest, reply: FastifyReply){
 
@@ -11,8 +10,8 @@ export async function deletePostbyId (request: FastifyRequest, reply: FastifyRep
     
     const { id } = paramSchema.parse(request.params)
 
-    const postsRepository = new PrismaPostsRepository()
-    const { post } = await new DeletePostUseCase(postsRepository).execute(id)
+    const deletePostUseCase = makeDeletePostUseCase()
+    const { post } = await deletePostUseCase.execute(id)
 
     return reply.status(200).send({
         message: "Post deletado com sucesso!",

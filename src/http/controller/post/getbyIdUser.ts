@@ -1,7 +1,6 @@
 import z from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { ShowPostsUserUseCase } from '@/use-case/post/show-posts-by-id-user.js';
-import { PrismaPostsRepository } from '@/repositories/prisma/posts-prisma-repository.js';
+import { makeShowByIdUserUseCase } from '@/use-case/factories/post/show-by-id-user.js';
 
 export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply) {
 
@@ -11,8 +10,8 @@ export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply)
 
     const { iduser } = paramsSchema.parse(request.params)
 
-    const postsRepository = new PrismaPostsRepository()
-    const posts = await new ShowPostsUserUseCase(postsRepository).execute(iduser)
+    const postsUserUseCase = makeShowByIdUserUseCase()
+    const posts = await postsUserUseCase.execute(iduser)
 
     return reply.status(200).send(posts)
 }
