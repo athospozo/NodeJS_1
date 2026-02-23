@@ -1,5 +1,5 @@
 import type { Post } from "@/@types/prisma/client.js";
-import { prisma } from "@/libs/prisma.js";
+import type { PostsRepository } from "@/repositories/posts-repository.js";
 
 interface RegisterPostUseCaseRequest {
     titulo: string;
@@ -12,18 +12,17 @@ type RegisterPostUseCaseResponse = {
 }
 
 export class RegisterPostUseCase {
+    constructor (private postsRepository: PostsRepository) {}
     async execute({
         titulo,
         Conteudo,
         Idautor
     }: RegisterPostUseCaseRequest): Promise<RegisterPostUseCaseResponse> {
 
-        const post = await prisma.post.create ({
-            data: {
-                titulo,
-                Conteudo,
-                autorId: Idautor
-            }
+        const post = await this.postsRepository.create({
+            titulo,
+            Conteudo,
+            autorId: Idautor
         })
     
         return { post }

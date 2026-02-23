@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { ReadPostById } from '@/use-case/post/read-post.js';
+import { PrismaPostsRepository } from '@/repositories/prisma/posts-prisma-repository.js';
 
 export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -10,7 +11,8 @@ export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { id } = paramsSchema.parse(request.params)
 
-    const { post } = await new ReadPostById().execute(id)
+    const postsRepository = new PrismaPostsRepository()
+    const { post } = await new ReadPostById(postsRepository).execute(id)
 
     return reply.status(200).send(post)
 }

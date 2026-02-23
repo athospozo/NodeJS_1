@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { PatchPostUseCase } from '@/use-case/post/patch-post.js';
+import { PrismaPostsRepository } from '@/repositories/prisma/posts-prisma-repository.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -17,7 +18,8 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { titulo, Conteudo } = PatchPostSchema.parse(request.body);
 
-    const post = await new PatchPostUseCase().execute(id, {
+    const postsRepository = new PrismaPostsRepository()
+    const post = await new PatchPostUseCase(postsRepository).execute(id, {
         titulo,
         Conteudo,
     })

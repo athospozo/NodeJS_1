@@ -1,18 +1,15 @@
 import type { Post } from "@/@types/prisma/client.js"
-import { prisma } from "@/libs/prisma.js"
+import type { PostsRepository } from "@/repositories/posts-repository.js"
   
 type GetPostUseCaseResponse = {
     post: Post
 }   
     
 export class ReadPostById{
+    constructor (private postsRepository: PostsRepository) {}
     async execute ( id: number ): Promise<GetPostUseCaseResponse>{
 
-        let post = await prisma.post.findUnique({
-            where:{
-                id: id,
-            },
-        })
+        const post = await this.postsRepository.findById(id)
 
         if (!post) throw new Error ("Post não existe!")
 

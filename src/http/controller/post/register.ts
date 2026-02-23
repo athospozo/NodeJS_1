@@ -1,6 +1,7 @@
 import z from 'zod'
 import { RegisterPostUseCase } from '@/use-case/post/register-post.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { PrismaPostsRepository } from '@/repositories/prisma/posts-prisma-repository.js';
 
 export async function register(request: FastifyRequest, reply: FastifyReply)  {
     const registerBodySchema = z.object({
@@ -11,7 +12,8 @@ export async function register(request: FastifyRequest, reply: FastifyReply)  {
 
     const { titulo, Conteudo, Idautor } = registerBodySchema.parse(request.body);
 
-    const { post } = await new RegisterPostUseCase().execute({
+    const postsRepository = new PrismaPostsRepository()
+    const { post } = await new RegisterPostUseCase(postsRepository).execute({
         titulo,
         Conteudo,
         Idautor

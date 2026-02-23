@@ -1,5 +1,5 @@
 import type { Post } from "@/@types/prisma/client.js"
-import { prisma } from "@/libs/prisma.js"
+import type { PostsRepository } from "@/repositories/posts-repository.js";
 
 interface PatchPostUseCaseRequest {
     titulo?: string | undefined;
@@ -11,16 +11,13 @@ type PatchPostUseCaseResponse = {
 }
 
 export class PatchPostUseCase {
+    constructor (private postsRepository: PostsRepository) {}
     async execute (id: number, { 
         titulo,
         Conteudo,
         }: PatchPostUseCaseRequest ): Promise<PatchPostUseCaseResponse>{
 
-        let post = await prisma.post.findFirst({
-            where : {
-                id
-            }
-        })
+        let post = await this.postsRepository.findById(id)
 
         // caso post nao exista:
         if (!post) throw new Error('Post não existe')
@@ -36,12 +33,7 @@ export class PatchPostUseCase {
             dataToUpdate.Conteudo = Conteudo
         }
     
-        post = await prisma.post.update({
-            where:{
-                id
-            },
-            data: dataToUpdate,
-        })
+        post = await this.postsRepository.update(id, dataToUpdate)
     
         return { post }
     }
