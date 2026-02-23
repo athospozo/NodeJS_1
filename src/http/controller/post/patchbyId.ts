@@ -1,11 +1,6 @@
 import z from 'zod'
-import { prisma } from '@/libs/prisma.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-
-type PatchPostBody = {
-    titulo?: string;
-    conteudo?: string;
-}
+import { PatchPostUseCase } from '@/use-case/post/patch-post.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -15,25 +10,17 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const PatchPostSchema = z.object({
         titulo: z.string().trim().min(1).max(100).optional(),
-        conteudo: z.string().trim().min(1).max(1000).optional(),
+        Conteudo: z.string().trim().min(1).max(1000).optional(),
     }); 
 
     const { id } = paramsSchema.parse(request.params)
 
-    const { titulo, conteudo } = PatchPostSchema.parse(request.body);
+    const { titulo, Conteudo } = PatchPostSchema.parse(request.body);
 
-    let objetoUtilizavel: PatchPostBody = {}
-
-    if (titulo !== undefined) objetoUtilizavel.titulo = titulo
-
-    if (conteudo !== undefined) objetoUtilizavel.conteudo = conteudo
-
-    const post = await prisma.post.update({
-        where:{
-            id: id,
-        },
-        data: objetoUtilizavel,
+    const post = await new PatchPostUseCase().execute(id, {
+        titulo,
+        Conteudo,
     })
 
-    return reply.status(201).send(post)
+    return reply.status(200).send(post)
 }

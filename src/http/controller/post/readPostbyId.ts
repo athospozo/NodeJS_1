@@ -1,6 +1,6 @@
 import z from 'zod'
-import { prisma } from '@/libs/prisma.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
+import { ReadPostById } from '@/use-case/post/read-post.js';
 
 export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -10,11 +10,7 @@ export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { id } = paramsSchema.parse(request.params)
 
-    const post = await prisma.post.findUnique({
-        where:{
-            id: id,
-        },
-    })
+    const { post } = await new ReadPostById().execute(id)
 
-    return reply.status(201).send(post)
+    return reply.status(200).send(post)
 }

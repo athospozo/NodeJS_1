@@ -1,4 +1,4 @@
-import { ShowAllUsersUseCase } from '@/use-case/user/show-all.js';
+import { ShowAllUsersUseCase } from '@/use-case/user/show-all-users.js';
 import type { FastifyRequest, FastifyReply } from 'fastify'
 
 export async function showAll(request: FastifyRequest, reply: FastifyReply) {

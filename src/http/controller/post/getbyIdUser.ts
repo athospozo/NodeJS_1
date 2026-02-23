@@ -1,6 +1,6 @@
 import z from 'zod'
-import { prisma } from '@/libs/prisma.js'
 import type { FastifyRequest, FastifyReply } from 'fastify'
+import { ShowPostsUserUseCase } from '@/use-case/post/show-posts-by-id-user.js';
 
 export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply) {
 
@@ -10,11 +10,7 @@ export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply)
 
     const { iduser } = paramsSchema.parse(request.params)
 
-    const posts = await prisma.post.findMany({
-        where:{
-            autorId: iduser,
-        },
-    })
+    const posts = await new ShowPostsUserUseCase().execute(iduser)
 
     return reply.status(200).send(posts)
 }
