@@ -1,19 +1,15 @@
 import z from 'zod'
-import { prisma } from '@/libs/prisma.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-
-type PatchUserBody = {
-    name?: string;
-    email?: string;
-    passwordHash?: string;
-    photo?: string;
-}
+import { PatchUserUseCase } from '@/use-case/user/patch-users.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
+
+    // identificanddo o id da deleção:
     const paramsSchema = z.object({
         id: z.coerce.number(), // Transforma a string da URL em número
     });
 
+    // recolhendo os dados a serem deletados:
     const PatchBodySchema = z.object({
         name: z.string().trim().min(1).max(100).optional(),
         email: z.string().max(100).optional(),
@@ -25,29 +21,11 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
     const { name, email, password, picture } = PatchBodySchema.parse(request.body);
 
-    let objetoUtilizavel: PatchUserBody = {}
-
-    if (name !== undefined) {
-        objetoUtilizavel.name = name
-    }
-
-    if (email !== undefined) {
-        objetoUtilizavel.email = email
-    }
-
-    if (password !== undefined) {
-        objetoUtilizavel.passwordHash = password
-    }
-
-    if (picture !== undefined) {
-        objetoUtilizavel.photo = picture
-    }
-
-    const user = await prisma.usuario.update({
-        where:{
-            id: id,
-        },
-        data: objetoUtilizavel,
+    const { user } = await new PatchUserUseCase().execute(id, {
+        name,
+        email,
+        passwordHash: password,
+        photo: picture
     })
 
     return reply.status(201).send(user)

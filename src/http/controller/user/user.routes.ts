@@ -1,9 +1,9 @@
 import type { FastifyInstance } from 'fastify';
-import { register } from './register.js';
+import { register } from './register.controller.js';
 import { showAll } from './showall.js';
-import { deleteUserbyEmail } from './deletebyEmail.js';
-import { patchbyId } from './patchbyId.js';
-import { readbyId } from './readUserbyId.js';
+import { deleteUserbyEmail } from './deletebyEmail.controller.js';
+import { patchbyId } from './patchbyId.controller.js';
+import { readbyId } from './readUserById.controller.js';
 
 
 export async function usersRoutes (app: FastifyInstance) {

@@ -3,4 +3,3 @@ node_modules/
 build/
 /src/@types/prisma
 endpoint.rest
-src/use-case/
