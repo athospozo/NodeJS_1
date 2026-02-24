@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { readByIdPostUseCase } from '@/use-case/factories/post/make-read-by-id-use-case.js';
+import { PostPresenter } from '@/http/presenter/post-presenter.js';
 
 export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -13,5 +14,5 @@ export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
     const readPostByIdUseCase = readByIdPostUseCase()
     const { post } = await readPostByIdUseCase.execute(id)
 
-    return reply.status(200).send(post)
+    return reply.status(200).send(PostPresenter.toHTTP(post))
 }

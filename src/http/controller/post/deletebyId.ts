@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeDeletePostUseCase } from '@/use-case/factories/post/make-delete-post-use-case.js';
+import { PostPresenter } from '@/http/presenter/post-presenter.js';
 
 export async function deletePostbyId (request: FastifyRequest, reply: FastifyReply){
 
@@ -15,6 +16,6 @@ export async function deletePostbyId (request: FastifyRequest, reply: FastifyRep
 
     return reply.status(200).send({
         message: "Post deletado com sucesso!",
-        postDeletado: post
+        postDeletado: PostPresenter.toHTTP(post)
     })
 }

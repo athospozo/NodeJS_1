@@ -1,5 +1,6 @@
 import type { Usuario } from "@/@types/prisma/client.js"
 import type { UsersRepository } from "@/repositories/users-repository.js"
+import { UserDoesntexist } from "../errors/user-does-not-exist.js"
 
 // usuario que sera devolvido mostrando que foi apagado
 type DeletedUserUseCaseResponse = {
@@ -13,7 +14,7 @@ export class DeleteUserUseCase {
         const userWithEmail = await this.usersRepository.findByEmail(email)
 
         if (!userWithEmail) {
-            throw new Error('Usuário não existe')
+            throw new UserDoesntexist()
         }
         
         const user = await this.usersRepository.delete(email)

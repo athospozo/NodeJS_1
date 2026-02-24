@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
 import { makeShowByIdUserUseCase } from '@/use-case/factories/post/make-show-by-id-user.js';
+import { PostPresenter } from '@/http/presenter/post-presenter.js';
 
 export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply) {
 
@@ -13,5 +14,5 @@ export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply)
     const postsUserUseCase = makeShowByIdUserUseCase()
     const posts = await postsUserUseCase.execute(iduser)
 
-    return reply.status(200).send(posts)
+    return reply.status(200).send(PostPresenter.toHTTP(posts))
 }

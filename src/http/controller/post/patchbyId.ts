@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makePatchPostUseCase } from '@/use-case/factories/post/make-patch-post-use-case.js';
+import { PostPresenter } from '@/http/presenter/post-presenter.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -18,10 +19,10 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
     const { titulo, Conteudo } = PatchPostSchema.parse(request.body);
 
     const patchPostUseCase = makePatchPostUseCase()
-    const post = await patchPostUseCase.execute(id, {
+    const { post } = await patchPostUseCase.execute(id, {
         titulo,
         Conteudo,
     })
 
-    return reply.status(200).send(post)
+    return reply.status(200).send(PostPresenter.toHTTP(post))
 }

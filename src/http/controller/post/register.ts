@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makePostUseCase } from '@/use-case/factories/post/make-register-use-case.js';
+import { PostPresenter } from '@/http/presenter/post-presenter.js';
 
 export async function register(request: FastifyRequest, reply: FastifyReply)  {
     const registerBodySchema = z.object({
@@ -18,5 +19,5 @@ export async function register(request: FastifyRequest, reply: FastifyReply)  {
         Idautor
     })
 
-    return reply.status(201).send(post);
+    return reply.status(201).send(PostPresenter.toHTTP(post));
 }
