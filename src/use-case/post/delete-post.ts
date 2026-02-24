@@ -1,5 +1,6 @@
 import type { Post } from "@/@types/prisma/client.js"
 import type { PostsRepository } from "@/repositories/posts-repository.js"
+import { PostDoesntexist } from "../errors/post-does-not-exist.js"
 
 // usuario que sera devolvido mostrando que foi apagado
 type DeletedPostUseCaseResponse = {
@@ -13,7 +14,7 @@ export class DeletePostUseCase {
         const postWithSameId = await this.postsRepository.findById(id)
 
         if (!postWithSameId) {
-            throw new Error('Post não existe')
+            throw new PostDoesntexist()
         }
         
         const post = await this.postsRepository.delete(id)

@@ -1,4 +1,5 @@
 import type { PostsRepository } from "@/repositories/posts-repository.js";
+import { UserDoesntexist } from "../errors/user-does-not-exist.js";
 
 export class ShowPostsUserUseCase{
     constructor (private postsRepository: PostsRepository) {}
@@ -8,7 +9,7 @@ export class ShowPostsUserUseCase{
         const user = await this.postsRepository.findById(idautor)
 
         if (!user) {
-            throw new Error('Usuário não existe')
+            throw new UserDoesntexist()
         }
 
         const posts = await this.postsRepository.FindFromUser(idautor)
