@@ -1,8 +1,14 @@
 import fastify from 'fastify';
 import { appRoutes } from './http/controller/routes.js';
 import { ZodError } from 'zod';
+import fastifyJWT from '@fastify/jwt';
+import { env } from './env/index.js';
 
 export const app = fastify();
+
+app.register(fastifyJWT, {
+    secret: env.JWT_SECRET,
+})
 
 app.register(appRoutes);
 
@@ -13,4 +19,12 @@ app.setErrorHandler((error,request,reply) => {
             issues: error.format(),
         })
     }
+
+    if (error instanceof SyntaxError){
+        return reply.status(400).send({
+            message: 'Invalid JSON payload',
+        })
+    }
+
+    return reply.status(500).send({ message: 'Internal Server Error' })
 })

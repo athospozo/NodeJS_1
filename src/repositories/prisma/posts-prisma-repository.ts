@@ -14,6 +14,12 @@ export class PrismaPostsRepository implements PostsRepository {
         })
     }
 
+    async findBy(where: Prisma.PostWhereUniqueInput) {
+        return await prisma.post.findUnique({
+            where
+        })
+    }
+
     async update(id: number, data: Prisma.PostUpdateInput) {
         return await prisma.post.update({
             where: { id },

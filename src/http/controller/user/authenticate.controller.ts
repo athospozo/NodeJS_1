@@ -1,0 +1,45 @@
+import z from 'zod'
+import type { FastifyReply, FastifyRequest } from 'fastify'
+import { UserPresenter } from '@/http/presenter/user-presenter.js';
+import { makeAuthenticateUseCase } from '@/use-case/factories/user/make-authenticate.js';
+import { invalidCredentialsError } from '@/use-case/errors/invalid-credentials-error.js';
+
+export async function authenticate(request: FastifyRequest, reply: FastifyReply)  {
+    try {
+        const authenticateBodySchema = z.object({
+            email: z.email().max(100).optional(),
+            password: z.string().trim().min(3).max(30),
+        }); 
+
+        const { email, password } = authenticateBodySchema.parse(request.body);
+
+        if (!email) {  
+            return reply.status(400).send({ message: "Email is required for authentication." });
+        }
+
+        const authenticateUserUseCase = makeAuthenticateUseCase()
+        const { user } = await authenticateUserUseCase.execute({
+            login: email,
+            password
+        })
+
+        const token = await reply.jwtSign({
+            sub: user.publicId,
+        },
+        {    expiresIn: '1d'}
+        )
+
+        return reply.status(201).send({
+            message:"Usuário autenticado com sucesso",
+            user: UserPresenter.toHTTP(user),
+            token
+        })
+    } catch (error) {
+        if (error instanceof invalidCredentialsError){
+            return reply.status(400).send({ message: error.message})
+        }
+    
+        throw error
+    }
+
+}

@@ -9,16 +9,16 @@ type DeletedPostUseCaseResponse = {
 
 export class DeletePostUseCase {
     constructor (private postsRepository: PostsRepository) {}
-    async execute( id: number ): Promise<DeletedPostUseCaseResponse> {
+    async execute( publicid: string ): Promise<DeletedPostUseCaseResponse> {
         // checamos se o post existe:
-        const postWithSameId = await this.postsRepository.findById(id)
+        const postWithSameId = await this.postsRepository.findBy({ publicId: publicid })
 
         if (!postWithSameId) {
             throw new PostDoesntexist()
         }
         
-        const post = await this.postsRepository.delete(id)
+        const postdeletado = await this.postsRepository.delete(postWithSameId.id)
 
-        return { post }
+        return { post: postdeletado }
     }
 }

@@ -8,13 +8,13 @@ export async function deletePostbyId (request: FastifyRequest, reply: FastifyRep
     try{
 
         const paramSchema = z.object({
-            id: z.coerce.number().int(),
+            publicId: z.coerce.string(),
         }); 
         
-        const { id } = paramSchema.parse(request.params)
+        const { publicId } = paramSchema.parse(request.params)
 
         const deletePostUseCase = makeDeletePostUseCase()
-        const { post } = await deletePostUseCase.execute(id)
+        const { post } = await deletePostUseCase.execute(publicId)
 
         return reply.status(200).send({
             message: "Post deletado com sucesso!",
