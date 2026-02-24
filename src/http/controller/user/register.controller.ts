@@ -2,6 +2,7 @@ import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeRegisterUseCase } from '@/use-case/factories/user/make-register-use-case.js';
 import { UserAlreadyExistsError } from '@/use-case/errors/user-already-exists-error.js';
+import { UserPresenter } from '@/http/presenter/user-presenter.js';
 
 export async function register(request: FastifyRequest, reply: FastifyReply)  {
     try {
@@ -24,7 +25,7 @@ export async function register(request: FastifyRequest, reply: FastifyReply)  {
 
         return reply.status(201).send({
             message:"Usuário criado com sucesso",
-            user,
+            user: UserPresenter.toHTTP(user)
         })
     } catch (error) {
         if (error instanceof UserAlreadyExistsError){

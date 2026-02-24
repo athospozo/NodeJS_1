@@ -1,6 +1,7 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makePatchUserUseCase } from '@/use-case/factories/user/make-patch-user-use-case.js';
+import { UserPresenter } from '@/http/presenter/user-presenter.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 
@@ -29,5 +30,5 @@ export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
         photo: picture
     })
 
-    return reply.status(201).send(user)
+    return reply.status(201).send(UserPresenter.toHTTP(user))
 }

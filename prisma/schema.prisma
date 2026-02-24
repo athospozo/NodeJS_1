@@ -20,6 +20,7 @@ enum USER_ROLE {
 
 model Usuario {
   id       Int @id @default(autoincrement())
+  publicId String @unique @map("public_id") @default(uuid())
 
   name     String
   email    String @unique
@@ -34,6 +35,7 @@ model Usuario {
 
 model Post {
   id       Int @id @default(autoincrement())
+  publicId String @unique @map("public_id") @default(uuid())
 
   titulo   String
   Conteudo String
