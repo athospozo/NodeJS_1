@@ -1,6 +1,6 @@
 import z from 'zod'
 import type { FastifyRequest, FastifyReply } from 'fastify'
-import { makeShowByIdUserUseCase } from '@/use-case/factories/post/show-by-id-user.js';
+import { makeShowByIdUserUseCase } from '@/use-case/factories/post/make-show-by-id-user.js';
 
 export async function getbyIdUsers(request: FastifyRequest, reply: FastifyReply) {
 

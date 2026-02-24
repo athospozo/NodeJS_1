@@ -1,6 +1,6 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { makePatchUserUseCase } from '@/use-case/factories/user/patch-user-use-case.js';
+import { makePatchUserUseCase } from '@/use-case/factories/user/make-patch-user-use-case.js';
 
 export async function patchbyId(request: FastifyRequest, reply: FastifyReply)  {
 

@@ -1,6 +1,6 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { makeDeletePostUseCase } from '@/use-case/factories/post/delete-post-use-case.js';
+import { makeDeletePostUseCase } from '@/use-case/factories/post/make-delete-post-use-case.js';
 
 export async function deletePostbyId (request: FastifyRequest, reply: FastifyReply){
 

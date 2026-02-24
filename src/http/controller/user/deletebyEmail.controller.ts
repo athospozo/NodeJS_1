@@ -1,6 +1,6 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { makeDeleteUserUseCase } from '@/use-case/factories/user/delete-user-use-case.js';
+import { makeDeleteUserUseCase } from '@/use-case/factories/user/make-delete-user-use-case.js';
 
 export async function deleteUserbyEmail (request: FastifyRequest, reply: FastifyReply){
     const deleteBodySchema = z.object({

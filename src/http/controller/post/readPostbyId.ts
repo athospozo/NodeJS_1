@@ -1,6 +1,6 @@
 import z from 'zod'
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { readByIdPostUseCase } from '@/use-case/factories/post/read-by-id-use-case.js';
+import { readByIdPostUseCase } from '@/use-case/factories/post/make-read-by-id-use-case.js';
 
 export async function readbyId(request: FastifyRequest, reply: FastifyReply)  {
 
